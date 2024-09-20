@@ -1,0 +1,23 @@
+table, th, td {
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    border-collapse: collapse;
+}
+
+td{
+   height: 15px;
+}
+
+th{
+    background-color: blue;
+    color: white;
+}
+
+.resultado{
+    background-color: rgb(165, 165, 165);
+}
+
+td.titulo{
+    background-color:  blue;
+}
