@@ -1,14 +1,5 @@
 <?php
-    $host = "localhost";
-    $banco = "boletin";
-    $senha = "";
-    $usuario = "root";
-    $con = mysqli_connect($host, $usuario, $senha, $banco);
-    if($con->connect_error){
-        die("Conexão falhou".$con->connect_error);
-    }else{
-        // echo "conectado <br>";
-    }
+    include('conexao.php');
     
     if(!empty($_POST['txt_email'])&&!empty($_POST['txt_senha'])){
         $login = $_POST['txt_email'];
@@ -19,14 +10,24 @@
         if ($dados->num_rows > 0) {
             
             while($row = $dados->fetch_assoc()) {
-            //   echo "id: " . $row["id"]. " - Name: " . $row["nome"]."Senha ".$row["senha"]. "<br>";
+            // if para verificar se o nome e senha estão corretos
             if($login==$row['nome']&&$senha==$row['senha']){
+                //if para verificar se já existe uma sessão
+                if(!isset($_SESSION)){
+                    session_start();
+                }
+                $_SESSION['id'] = $row['id'];
+                $_SESSION['nome'] = $row['nome'];
+
+                
+
                 echo "usuario $login logado <br>";
-                header('http://localhost/dashboard/coude/avaliação 01/boletin.html');
+                //função para redirecionar paginas
+                header('Location: inserir_aluno.php');
             }
             }
           } else {
-            echo "0 results";
+            echo "Usuario ou senha incorretos";
           }
           $con->close();
         
