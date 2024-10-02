@@ -10,6 +10,7 @@ $maior_nota = 1;
 $quantidade_nota_empatada = 0;
 
 function maior_nota(){
+    global $bi1; 
     if($GLOBALS['bi1']>=$GLOBALS['bi2'] && $GLOBALS['bi1']>=$GLOBALS['bi3'] && $GLOBALS['bi1']>=$GLOBALS['bi4']){
         $GLOBALS['maior_nota'] = $GLOBALS['bi1'];
         $GLOBALS['maior_nivel'] = situacao($GLOBALS['bi1']);
