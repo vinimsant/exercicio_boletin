@@ -21,3 +21,12 @@ th{
 td.titulo{
     background-color:  blue;
 }
+
+#form_inserir_aluno{
+    border: solid 3px black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: fit-content;
+}
