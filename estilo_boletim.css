@@ -22,11 +22,33 @@ td.titulo{
     background-color:  blue;
 }
 
-#form_inserir_aluno{
-    border: solid 3px black;
+
+
+.form{
+    margin: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    border: solid 3px blue;
+    border-radius: 10%;
+    padding: 10px;
     width: fit-content;
+    background-color: aquamarine;
+}
+
+input{
+    margin: 5px;
+}
+
+.centralizar{
+    position: absolute;
+    left: 50%;
+    top: auto;
+    transform: translate(-50%);
+}
+
+.centralizar_inserir{
+    display: grid;
+    place-items: center;
 }

@@ -39,6 +39,8 @@
                                     $sql_preparada = $con->prepare($sql_insert);
                                     $sql_preparada->bind_param("sddddds", $nome_aluno, $nota_bimestre01, $nota_bimestre02, $nota_bimestre03, $nota_bimestre04, $nota_final, $senha_aluno);
                                     $sql_preparada->execute();
+                                    //codigo para atualizar a pagina
+                                    header("Refresh: 0");
                                 }catch(Exception $e){
                                     echo "Erro ao salvar $e";
                                 }
@@ -77,22 +79,24 @@
     <form action="" method="post">
         <input type="submit" value="Sair" name="sair">
     </form>
-    <form action="" method="post" class="form" id="form_inserir_aluno">
-        <label for="txt_nome_aluno">Nome do aluno</label>
-        <input type="text" name="txt_nome_aluno" id="txt_nome_aluno">
-        <label for="txt_senha_aluno">Senha provisoria do aluno</label>
-        <input type="text" name="txt_senha_aluno" id="txt_senha_aluno">
-        <label for="txt_nota_bimestre01">Nota do primeiro bimestre</label>
-        <input type="number" name="txt_nota_bimestre01" id="txt_nota_bimestre01">
-        <label for="txt_nota_bimestre02">Nota do segundo bimestre</label>
-        <input type="number" name="txt_nota_bimestre02" id="txt_nota_bimestre02">
-        <label for="txt_nota_bimestre03">Nota do terceiro bimestre</label>
-        <input type="number" name="txt_nota_bimestre03" id="txt_nota_bimestre03">
-        <label for="txt_nota_bimestre04">Nota do quarto bimestre</label>
-        <input type="number" name="txt_nota_bimestre04" id="txt_nota_bimestre04">
-        <input type="reset" value="Limpar">
-        <input type="submit" value="Salvar">
-    </form>
+    <div class="centralizar_inserir">
+        <form action="" method="post" class="form" id="form_inserir_aluno">
+            <label for="txt_nome_aluno">Nome do aluno</label>
+            <input type="text" name="txt_nome_aluno" id="txt_nome_aluno">
+            <label for="txt_senha_aluno">Senha provisoria do aluno</label>
+            <input type="text" name="txt_senha_aluno" id="txt_senha_aluno">
+            <label for="txt_nota_bimestre01">Nota do primeiro bimestre</label>
+            <input type="number" name="txt_nota_bimestre01" id="txt_nota_bimestre01">
+            <label for="txt_nota_bimestre02">Nota do segundo bimestre</label>
+            <input type="number" name="txt_nota_bimestre02" id="txt_nota_bimestre02">
+            <label for="txt_nota_bimestre03">Nota do terceiro bimestre</label>
+            <input type="number" name="txt_nota_bimestre03" id="txt_nota_bimestre03">
+            <label for="txt_nota_bimestre04">Nota do quarto bimestre</label>
+            <input type="number" name="txt_nota_bimestre04" id="txt_nota_bimestre04">
+            <input type="reset" value="Limpar">
+            <input type="submit" value="Salvar">
+        </form>
+    </div>
     <table border="3px" class="tabela_alunos">
         <thead>
             <th>Nome</th>

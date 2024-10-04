@@ -18,12 +18,21 @@
                 }
                 $_SESSION['id'] = $row['id'];
                 $_SESSION['nome'] = $row['nome'];
-
-                
-
-                echo "usuario $login logado <br>";
+                //verificar os privilegios para abrir a pagina adequada
+                if($row['privilegios'] == 'administrativo'){
+                    echo "usuario $login logado <br>";
                 //função para redirecionar paginas
                 header('Location: inserir_aluno.php');
+                }else{
+                    if($row['privilegios'] == 'aluno'){
+                        $_SESSION['id'] = $row['id'];
+                        $_SESSION['nome'] = $row['nome'];
+                        header("Location: boletin.php");
+                    }
+                }
+                
+
+                
             }
             }
           } else {
@@ -41,16 +50,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo_boletim.css">
     <title>Boletin Escolar</title>
 </head>
 <body>
-    <form action="login.php" method="post">
-        <label for="email">Digite seu email</label>
-        <input type="text" id="email" name="txt_email">
-        <label for="senha">Digite a senha</label>
-        <input type="password" id="senha" name="txt_senha">
-        <input type="reset" value="Limpar">
-        <input type="submit" value="Enviar">
-    </form>
+    <div class="centralizar">
+        <form action="login.php" method="post" class="form">
+            <label for="email">Digite seu email</label>
+            <input type="text" id="email" name="txt_email">
+            <label for="senha">Digite a senha</label>
+            <input type="password" id="senha" name="txt_senha">
+            <input type="reset" value="Limpar">
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
 </body>
 </html>
