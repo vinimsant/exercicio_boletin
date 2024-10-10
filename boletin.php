@@ -7,17 +7,36 @@ if(!isset($_SESSION['nome'])){
     //matar a pagina
     die(header("Location: login.php"));
 }
-$usuario = $_SESSION['nome'];
-$id_usuario_tb_agente_adminstrativo = $_SESSION['id'];
-$sql = "SELECT * FROM alunos";
-$dados = $con->query($sql);
-$bi1 = 0;
-$bi2 = 0;
-$bi3 = 0;
-$bi4 = 0;
-$id_tb_alunos = "";
-$nome_aluno = $_SESSION['nome'];
-echo $nome_aluno;
+//verificação para quando a vizualização vem da pagina de inserir aluno. o if verifica se foi passado um nome de aluno
+if(isset($_SESSION['nome_aluno'])&&isset($_SESSION['id_aluno'])){
+    $usuario = $_SESSION['nome'];
+    $id_usuario_tb_agente_adminstrativo = $_SESSION['id'];
+    $id_aluno = $_SESSION['id_aluno'];
+    $nome_aluno = $_SESSION['nome_aluno'];
+    $sql = "SELECT * FROM notas_alunos WHERE id = $id_aluno";
+    $dados = $con->query($sql);
+    $bi1 = 0;
+    $bi2 = 0;
+    $bi3 = 0;
+    $bi4 = 0;
+    $id_tb_alunos = "";
+    
+    echo "$usuario<br>";
+    echo "Boletin referente ao aluno $nome_aluno com CPF $id_aluno <br>";
+}else{
+    $usuario = $_SESSION['nome'];
+    $id_usuario_tb_agente_adminstrativo = $_SESSION['id'];
+    $sql = "SELECT * FROM notas_alunos WHERE id = $id_usuario_tb_agente_adminstrativo";
+    $dados = $con->query($sql);
+    $bi1 = 0;
+    $bi2 = 0;
+    $bi3 = 0;
+    $bi4 = 0;
+    $id_tb_alunos = "";
+    $nome_aluno = $_SESSION['nome'];
+    echo $nome_aluno;
+}
+
 
 while($row = $dados->fetch_assoc()){
     $GLOBALS['bi1'] = $row["nota_bimestre_01"];
@@ -43,6 +62,7 @@ if(!empty($_POST['sair'])){
 }
 
 function maior_nota(){
+    //mudar para lops para diminuir o if else
     global $bi1; 
     if($GLOBALS['bi1']>=$GLOBALS['bi2'] && $GLOBALS['bi1']>=$GLOBALS['bi3'] && $GLOBALS['bi1']>=$GLOBALS['bi4']){
         $GLOBALS['maior_nota'] = $GLOBALS['bi1'];
