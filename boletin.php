@@ -1,15 +1,68 @@
 <?php
-$bi1= $_GET["bi1"] ?? 0;
-$bi2= $_GET["bi2"] ?? 0;
-$bi3= $_GET["bi3"] ?? 0;
-$bi4= $_GET["bi4"] ?? 0;   
+include("conexao.php");
+if(!isset($_SESSION)){
+    session_start();
+}
+if(!isset($_SESSION['nome'])){
+    //matar a pagina
+    die(header("Location: login.php"));
+}
+//verificação para quando a vizualização vem da pagina de inserir aluno. o if verifica se foi passado um nome de aluno
+if(isset($_SESSION['nome_aluno'])&&isset($_SESSION['id_aluno'])){
+    $usuario = $_SESSION['nome'];
+    $id_usuario_tb_agente_adminstrativo = $_SESSION['id'];
+    $id_aluno = $_SESSION['id_aluno'];
+    $nome_aluno = $_SESSION['nome_aluno'];
+    $sql = "SELECT * FROM notas_alunos WHERE id = $id_aluno";
+    $dados = $con->query($sql);
+    $bi1 = 0;
+    $bi2 = 0;
+    $bi3 = 0;
+    $bi4 = 0;
+    $id_tb_alunos = "";
+    
+    echo "$usuario<br>";
+    echo "Boletin referente ao aluno $nome_aluno com CPF $id_aluno <br>";
+}else{
+    $usuario = $_SESSION['nome'];
+    $id_usuario_tb_agente_adminstrativo = $_SESSION['id'];
+    $sql = "SELECT * FROM notas_alunos WHERE id = $id_usuario_tb_agente_adminstrativo";
+    $dados = $con->query($sql);
+    $bi1 = 0;
+    $bi2 = 0;
+    $bi3 = 0;
+    $bi4 = 0;
+    $id_tb_alunos = "";
+    $nome_aluno = $_SESSION['nome'];
+    echo $nome_aluno;
+}
+
+
+while($row = $dados->fetch_assoc()){
+    $GLOBALS['bi1'] = $row["nota_bimestre_01"];
+    $GLOBALS['bi2'] = $row["nota_bimestre_02"];
+    $GLOBALS['bi3'] = $row["nota_bimestre_03"];
+    $GLOBALS['bi4'] = $row["nota_bimestre_04"];
+    $GLOBALS['id_tb_alunos'] = $row['id']; 
+}
+   
 $media = ($bi1 + $bi2 + $bi3 + $bi4)/4;
 $aproveitamento = $media/10*100;
 $maior_nivel = "";
 $maior_nota = 1;
 $quantidade_nota_empatada = 0;
 
+//botão sair
+if(!empty($_POST['sair'])){
+    if(!isset($_SESSION)){
+        session_start();
+    }
+    session_destroy();
+    header("Location: login.php");
+}
+
 function maior_nota(){
+    //mudar para lops para diminuir o if else
     global $bi1; 
     if($GLOBALS['bi1']>=$GLOBALS['bi2'] && $GLOBALS['bi1']>=$GLOBALS['bi3'] && $GLOBALS['bi1']>=$GLOBALS['bi4']){
         $GLOBALS['maior_nota'] = $GLOBALS['bi1'];
@@ -84,6 +137,9 @@ function situacaoF() {
 </head>
 <body>
     <div class="conteiner">
+        <form action="" method="post">
+            <input type="submit" name="sair" value="Sair" id="btn_sair_boletin" class="botao">
+        </form>
     <table>
     <thead>
         <th>1º Bimestre</th>
@@ -134,7 +190,9 @@ function situacaoF() {
             <th colspan="8">mensagem final</th>
         </tr>
         <tr>
-            <td colspan="8" class="resultado"><?php $situa = situacaoF(); if($media >= 6){echo "Parabens! Voce foi aprovado nesse ano letivo em um nivel $situa, com uma procentagem de aproveitamento de $aproveitamento% e uma media final de $media";}else{echo "Estude mais! Voce não foi aprovado nesse ano letivo.Seu nivel foi $situa, com uma procentagem de aproveitamento de $aproveitamento% e uma media final de $media";} ?></td>
+            <td colspan="8" class="resultado"><?php $situa = situacaoF(); if($media >= 6){echo "Parabens $nome_aluno! Voce foi aprovado nesse ano letivo em um nivel $situa, com uma procentagem de aproveitamento de $aproveitamento% e uma media final de $media";}
+            //caso o aluno não tenha atingido a media
+            else{echo "Estude mais $nome_aluno! Voce não foi aprovado nesse ano letivo.Seu nivel foi $situa, com uma procentagem de aproveitamento de $aproveitamento% e uma media final de $media";} ?></td>
         </tr>
         <tr>
             <td colspan="8" class="resultado">Destaques: no ano letivo que findou, o aluno obteve em <?php echo "$quantidade_nota_empatada"; if($quantidade_nota_empatada>1){
